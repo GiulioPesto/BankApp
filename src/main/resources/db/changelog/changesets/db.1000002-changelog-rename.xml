@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- ChangeSet 5: Rename foreign key constraint on BankAccount -->
+    <changeSet id="5" author="giulio.pastore">
+        <!-- Prima droppa la foreign key vecchia -->
+        <dropForeignKeyConstraint baseTableName="BANK_ACCOUNT" constraintName="fk_account_user"/>
+        <!-- Poi aggiungi la nuova foreign key con nome aggiornato -->
+        <addForeignKeyConstraint baseTableName="BANK_ACCOUNT"
+                                 baseColumnNames="user_uid"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_bank_account_user"/>
+    </changeSet>
+
+    <!-- ChangeSet 6: Rename columns in Transfer table -->
+    <changeSet id="6" author="giulio.pastore">
+        <renameColumn tableName="TRANSFER" oldColumnName="from_account_uid" newColumnName="from_bank_account_uid" columnDataType="char(36)"/>
+        <renameColumn tableName="TRANSFER" oldColumnName="to_account_uid" newColumnName="to_bank_account_uid" columnDataType="char(36)"/>
+    </changeSet>
+
+    <!-- ChangeSet 7: Rename foreign keys on Transfer table -->
+    <changeSet id="7" author="giulio.pastore">
+        <!-- Droppa le foreign key vecchie -->
+        <dropForeignKeyConstraint baseTableName="TRANSFER" constraintName="fk_transfer_from_account"/>
+        <dropForeignKeyConstraint baseTableName="TRANSFER" constraintName="fk_transfer_to_account"/>
+
+        <!-- Aggiungi le nuove foreign key con nomi aggiornati -->
+        <addForeignKeyConstraint baseTableName="TRANSFER"
+                                 baseColumnNames="from_bank_account_uid"
+                                 referencedTableName="BANK_ACCOUNT"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_transfer_from_account"/>
+        <addForeignKeyConstraint baseTableName="TRANSFER"
+                                 baseColumnNames="to_bank_account_uid"
+                                 referencedTableName="BANK_ACCOUNT"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_transfer_to_account"/>
+    </changeSet>
+
+</databaseChangeLog>
