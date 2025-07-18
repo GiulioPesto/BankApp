@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Create User Table -->
+    <changeSet id="1" author="giulio.pastore">
+        <createTable tableName="USER">
+            <column name="uid" type="char(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)"/>
+            <column name="secondName" type="varchar(100)"/>
+            <column name="lastName" type="varchar(100)"/>
+            <column name="email" type="varchar(254)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="address" type="varchar(255)"/>
+            <column name="zipCode" type="varchar(10)"/>
+            <column name="taxIdCode" type="varchar(255)"/>
+            <column name="age" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create Account Table -->
+    <changeSet id="2" author="giulio.pastore">
+        <createTable tableName="BANK_ACCOUNT">
+            <column name="uid" type="char(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="iban" type="varchar(34)"/>
+            <column name="balance" type="decimal(19,2)"/>
+            <column name="user_uid" type="char(36)">
+                <constraints nullable="false" foreignKeyName="fk_account_user"
+                             references="USER(uid)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Create Transfer Table -->
+    <changeSet id="3" author="giulio.pastore">
+        <createTable tableName="TRANSFER">
+            <column name="uid" type="char(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="from_account_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_account_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(19,2)"/>
+            <column name="fees" type="decimal(19,2)"/>
+            <column name="timestamp" type="timestamp"/>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+
+        <!-- Foreign Keys for Transfer -->
+        <addForeignKeyConstraint baseTableName="TRANSFER"
+                                 baseColumnNames="from_account_uid"
+                                 referencedTableName="BANK_ACCOUNT"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_transfer_from_account"/>
+        <addForeignKeyConstraint baseTableName="TRANSFER"
+                                 baseColumnNames="to_account_uid"
+                                 referencedTableName="BANK_ACCOUNT"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_transfer_to_account"/>
+    </changeSet>
+
+</databaseChangeLog>

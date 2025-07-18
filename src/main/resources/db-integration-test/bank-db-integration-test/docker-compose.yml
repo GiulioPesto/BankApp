@@ -1,0 +1,21 @@
+version: "3.8"
+
+volumes:
+  data:
+    driver: local
+
+services:
+  bank-db-integration-test:
+    platform: linux/amd64
+    image: mysql:8.0
+    container_name: bank-db-integration-test
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: bankdb-integration-test
+      MYSQL_USER: bankuser
+      MYSQL_PASSWORD: nonmelaricordo
+    ports:
+      - "3307:3306"
+    volumes:
+      - data:/database
