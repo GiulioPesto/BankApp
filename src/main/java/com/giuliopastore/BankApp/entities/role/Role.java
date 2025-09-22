@@ -1,22 +1,23 @@
-package com.giuliopastore.BankApp.entities.bankAccount;
+package com.giuliopastore.BankApp.entities.role;
 
 import com.giuliopastore.BankApp.entities.listener.GenerateUidEntityListener;
-import com.giuliopastore.BankApp.entities.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
-
+@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name = "BANK_ACCOUNT")
+@Table(name = "ROLE")
 @EntityListeners(GenerateUidEntityListener.class)
-@ToString
-public class BankAccount {
+public class Role {
 
     @Id
     @Column(length = 36, columnDefinition = "CHAR(36)")
@@ -24,12 +25,9 @@ public class BankAccount {
     private String uid;
 
     @NotNull
-    private String iban;
+    private String name;
 
     @NotNull
-    private BigDecimal balance;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_uid", nullable = false)
-    private User user;
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="20250719210645" author="giulio.pastore">
+        <addColumn tableName="USER">
+            <column name="subscription_type" type="varchar(20)" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="20250719212758" author="giulio.pastore">
+        <createTable tableName="ROLE">
+            <column name="uid" type="char(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)"/>
+            <column name="description" type="varchar(100)"/>
+        </createTable>
+        <createTable tableName="FUNCTIONALITY">
+            <column name="uid" type="char(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)"/>
+            <column name="description" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="20250719220000" author="giulio.pastore">
+        <createTable tableName="USER_ROLE">
+            <column name="user_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="USER_ROLE" columnNames="user_uid,role_uid" constraintName="pk_user_role"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="user_uid"
+                                 referencedTableName="USER"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_userrole_user"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE"
+                                 baseColumnNames="role_uid"
+                                 referencedTableName="ROLE"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_userrole_role"/>
+
+        <createTable tableName="ROLE_FUNCTIONALITY">
+            <column name="role_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="functionality_uid" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="ROLE_FUNCTIONALITY" columnNames="role_uid,functionality_uid" constraintName="pk_role_functionality"/>
+        <addForeignKeyConstraint baseTableName="ROLE_FUNCTIONALITY"
+                                 baseColumnNames="role_uid"
+                                 referencedTableName="ROLE"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_rolefunc_role"/>
+        <addForeignKeyConstraint baseTableName="ROLE_FUNCTIONALITY"
+                                 baseColumnNames="functionality_uid"
+                                 referencedTableName="FUNCTIONALITY"
+                                 referencedColumnNames="uid"
+                                 constraintName="fk_rolefunc_func"/>
+    </changeSet>
+</databaseChangeLog>
