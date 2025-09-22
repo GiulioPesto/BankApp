@@ -2,7 +2,9 @@ package com.giuliopastore.BankApp.entities.user;
 
 import com.giuliopastore.BankApp.entities.bankAccount.BankAccount;
 import com.giuliopastore.BankApp.entities.listener.GenerateUidEntityListener;
+import com.giuliopastore.BankApp.enums.SubscriptionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +47,9 @@ public class User {
     @NotNull
     private String phoneNumber;
 
+    @Column(name = "subscription_type")
+    private SubscriptionType subscriptionType;
+
     @NotNull
     private Integer zipCode;
 
@@ -52,6 +57,7 @@ public class User {
     private String taxIdCode;
 
     @NotNull
+    @Min(value = 18, message = "Age must be greater than 18")
     private Integer age;
 
     @OneToMany(mappedBy = "user")
