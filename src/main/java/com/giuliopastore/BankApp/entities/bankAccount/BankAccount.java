@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Entity
-@Table(name = "BANK_ACCOUNT")
+@Table(schema = "bank_schema", name = "bank_account")
 @EntityListeners(GenerateUidEntityListener.class)
 @ToString
 public class BankAccount {

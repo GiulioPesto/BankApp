@@ -10,7 +10,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @Entity
-@Table(name = "TRANSFER")
+@Table(schema = "bank_schema", name = "transfer")
 @EntityListeners(GenerateUidEntityListener.class)
 @ToString
 public class Transfer {

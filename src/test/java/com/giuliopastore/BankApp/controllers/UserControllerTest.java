@@ -3,7 +3,6 @@ package com.giuliopastore.BankApp.controllers;
 
 import com.giuliopastore.BankApp.BankAppApplication;
 import com.giuliopastore.BankApp.entities.user.User;
-import com.giuliopastore.BankApp.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -35,7 +36,11 @@ public class UserControllerTest {
                 .phoneNumber("123456789")
                 .zipCode(73100)
                 .taxIdCode("PSTGFD45FE535")
-                .age(20)
+                .birthDate(LocalDate.parse("2020/10/10"))
+                .subscriptionType(null)
+                .birthPlace("Lecce")
+                .city("Lecce")
+                .province("LE")
                 .build();
 
         user = controller.createUser(user);

@@ -1,14 +1,15 @@
 package com.giuliopastore.BankApp.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.giuliopastore.BankApp.entities.bankAccount.BankAccount;
 import com.giuliopastore.BankApp.entities.listener.GenerateUidEntityListener;
 import com.giuliopastore.BankApp.enums.SubscriptionType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
-@Table(name = "USER")
+@Table(schema = "bank_schema", name = "user")
 @EntityListeners(GenerateUidEntityListener.class)
 public class User {
 
@@ -57,8 +58,17 @@ public class User {
     private String taxIdCode;
 
     @NotNull
-    @Min(value = 18, message = "Age must be greater than 18")
-    private Integer age;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDate birthDate;
+
+    @NotNull
+    private String birthPlace;
+
+    @NotNull
+    private String city;
+
+    @NotNull
+    private String province;
 
     @OneToMany(mappedBy = "user")
     private List<BankAccount>  bankAccounts;
@@ -76,7 +86,8 @@ public class User {
                 "  \"phoneNumber\": \"" + phoneNumber + "\",\n" +
                 "  \"zipCode\": " + zipCode + ",\n" +
                 "  \"taxIdCode\": \"" + taxIdCode + "\",\n" +
-                "  \"age\": " + age + "\n" +
+                "  \"birthDate\": " + birthDate + "\n" +
+                "  \"birthPlace\": " + birthPlace + "\n" +
                 "}";
     }
 }
