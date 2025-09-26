@@ -1,9 +1,16 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/bankdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+#    username: bankuser
+#    password: nonmelaricordo
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/bankdb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
-    username: bankuser
-    password: nonmelaricordo
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    # L'URL del pooler usa una porta diversa (solitamente 5432) e un host diverso
+    url: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:5432/postgres
+    username: postgres.ehgsmaiqpbtpjiiqkpdx # O il nome utente specifico del pooler se diverso
+    password: PestoProsciutto11! # La tua password del database
+    driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+    liquibase-schema: bank_schema

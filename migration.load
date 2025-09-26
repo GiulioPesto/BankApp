@@ -1,0 +1,10 @@
+LOAD DATABASE
+    FROM mysql://bankuser:nonmelaricordo@127.0.0.1:3306/bankdb
+    INTO postgresql://postgres:PorcaccioDio11!@db.ehgsmaiqpbtpjiiqkpdx.supabase.co:5432/postgres
+
+WITH
+    quote identifiers,
+    drop indexes,
+    reset sequences
+
+EXCLUDING TABLE NAMES MATCHING 'DATABASECHANGELOG', 'DATABASECHANGELOGLOCK';

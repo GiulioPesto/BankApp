@@ -5,20 +5,15 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="20250719210645" author="giulio.pastore">
-        <addColumn tableName="USER">
-            <column name="subscription_type" type="varchar(20)" />
-        </addColumn>
-    </changeSet>
     <changeSet id="20250719212758" author="giulio.pastore">
-        <createTable tableName="ROLE">
+        <createTable tableName="role" schemaName="bank_schema">
             <column name="uid" type="char(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(100)"/>
             <column name="description" type="varchar(100)"/>
         </createTable>
-        <createTable tableName="FUNCTIONALITY">
+        <createTable tableName="functionality" schemaName="bank_schema">
             <column name="uid" type="char(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -27,7 +22,7 @@
         </createTable>
     </changeSet>
     <changeSet id="20250719220000" author="giulio.pastore">
-        <createTable tableName="USER_ROLE">
+        <createTable tableName="user_role" schemaName="bank_schema">
             <column name="user_uid" type="char(36)">
                 <constraints nullable="false"/>
             </column>
@@ -35,19 +30,23 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="USER_ROLE" columnNames="user_uid,role_uid" constraintName="pk_user_role"/>
-        <addForeignKeyConstraint baseTableName="USER_ROLE"
+        <addPrimaryKey tableName="user_role" schemaName="bank_schema" columnNames="user_uid,role_uid" constraintName="pk_user_role"/>
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseTableSchemaName="bank_schema"
                                  baseColumnNames="user_uid"
-                                 referencedTableName="USER"
+                                 referencedTableName="user"
+                                 referencedTableSchemaName="bank_schema"
                                  referencedColumnNames="uid"
                                  constraintName="fk_userrole_user"/>
-        <addForeignKeyConstraint baseTableName="USER_ROLE"
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseTableSchemaName="bank_schema"
                                  baseColumnNames="role_uid"
-                                 referencedTableName="ROLE"
+                                 referencedTableName="role"
+                                 referencedTableSchemaName="bank_schema"
                                  referencedColumnNames="uid"
                                  constraintName="fk_userrole_role"/>
 
-        <createTable tableName="ROLE_FUNCTIONALITY">
+        <createTable tableName="role_functionality" schemaName="bank_schema">
             <column name="role_uid" type="char(36)">
                 <constraints nullable="false"/>
             </column>
@@ -55,15 +54,19 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="ROLE_FUNCTIONALITY" columnNames="role_uid,functionality_uid" constraintName="pk_role_functionality"/>
-        <addForeignKeyConstraint baseTableName="ROLE_FUNCTIONALITY"
+        <addPrimaryKey tableName="role_functionality" schemaName="bank_schema" columnNames="role_uid,functionality_uid" constraintName="pk_role_functionality" />
+        <addForeignKeyConstraint baseTableName="role_functionality"
+                                 baseTableSchemaName="bank_schema"
                                  baseColumnNames="role_uid"
-                                 referencedTableName="ROLE"
+                                 referencedTableName="role"
+                                 referencedTableSchemaName="bank_schema"
                                  referencedColumnNames="uid"
                                  constraintName="fk_rolefunc_role"/>
-        <addForeignKeyConstraint baseTableName="ROLE_FUNCTIONALITY"
+        <addForeignKeyConstraint baseTableName="role_functionality"
+                                 baseTableSchemaName="bank_schema"
                                  baseColumnNames="functionality_uid"
-                                 referencedTableName="FUNCTIONALITY"
+                                 referencedTableName="functionality"
+                                 referencedTableSchemaName="bank_schema"
                                  referencedColumnNames="uid"
                                  constraintName="fk_rolefunc_func"/>
     </changeSet>

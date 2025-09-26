@@ -33,7 +33,10 @@ public class UserService {
                 existingUser.setPhoneNumber(user.getPhoneNumber());
                 existingUser.setZipCode(user.getZipCode());
                 existingUser.setTaxIdCode(user.getTaxIdCode());
-                existingUser.setAge(user.getAge());
+                existingUser.setBirthDate(user.getBirthDate());
+                existingUser.setBirthPlace(user.getBirthPlace());
+                existingUser.setCity(user.getCity());
+                existingUser.setProvince(user.getProvince());
                 existingUser.setBankAccounts(user.getBankAccounts());
                 return userRepository.save(existingUser);
             }
