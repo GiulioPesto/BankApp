@@ -109,4 +109,35 @@
                                  constraintName="fk_transfer_to_bank_account"/>
     </changeSet>
 
+    <changeSet id="user_view" author="giulio.pastore">
+        <createView viewName="user_full" schemaName="bank_schema" replaceIfExists="true">
+            SELECT
+                u.*,
+                a.phone,
+                a.created_at
+            FROM bank_schema.user u
+                     JOIN auth.users a ON a.id = u.auth_user_id::uuid
+        </createView>
+    </changeSet>
+
+    <changeSet id="1759247832462-1" author="giulio_pastore">
+        <addColumn tableName="user" schemaName="bank_schema">
+            <column name="auth_user_id" type="uuid" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="giulio.pastore">
+        <addForeignKeyConstraint baseTableName="user"
+                                 baseTableSchemaName="bank_schema"
+                                 baseColumnNames="auth_user_id"
+                                 referencedTableName="users"
+                                 referencedTableSchemaName="auth"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_user_auth_user"/>
+    </changeSet>
+
+
+    <changeSet id="1759764704849-1" author="giulio_pastore">
+        <dropForeignKeyConstraint baseTableName="user" baseTableSchemaName="bank_schema"  constraintName="fk_user_auth_user"/>
+    </changeSet>
 </databaseChangeLog>

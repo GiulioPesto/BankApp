@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Role {
 
     @Id
-    @Column(length = 36, columnDefinition = "CHAR(36)")
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     @NotNull
     private String uid;
 
