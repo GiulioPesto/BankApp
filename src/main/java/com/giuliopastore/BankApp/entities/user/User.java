@@ -24,7 +24,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(length = 36, columnDefinition = "CHAR(36)")
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     @NotNull
     private String uid;
 
@@ -72,6 +72,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<BankAccount>  bankAccounts;
+
+    @Column(name = "auth_user_id", length = 36, columnDefinition = "VARCHAR(36)")
+    private String authUserId;
 
     @Override
     public String toString() {

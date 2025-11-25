@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class Transfer {
 
     @Id
-    @Column(length = 36, columnDefinition = "CHAR(36)")
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     @NotNull
     private String uid;
 

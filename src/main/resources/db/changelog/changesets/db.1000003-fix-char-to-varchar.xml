@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="1000003-1" author="giulio.pastore">
+        <preConditions onFail="MARK_RAN">
+            <tableExists schemaName="bank_schema" tableName="user"/>
+            <tableExists schemaName="bank_schema" tableName="bank_account"/>
+            <tableExists schemaName="bank_schema" tableName="transfer"/>
+            <tableExists schemaName="bank_schema" tableName="role"/>
+            <tableExists schemaName="bank_schema" tableName="functionality"/>
+        </preConditions>
+        <comment>Convert CHAR(36) columns to VARCHAR(36) to avoid padding with spaces</comment>
+
+        <!-- User table - uid column -->
+        <modifyDataType tableName="user"
+                        schemaName="bank_schema"
+                        columnName="uid"
+                        newDataType="VARCHAR(36)"/>
+
+        <!-- User table - auth_user_id column -->
+        <modifyDataType tableName="user"
+                        schemaName="bank_schema"
+                        columnName="auth_user_id"
+                        newDataType="VARCHAR(36)"/>
+
+        <!-- Bank Account table -->
+        <modifyDataType tableName="bank_account"
+                        schemaName="bank_schema"
+                        columnName="uid"
+                        newDataType="VARCHAR(36)"/>
+
+        <!-- Transfer table -->
+        <modifyDataType tableName="transfer"
+                        schemaName="bank_schema"
+                        columnName="uid"
+                        newDataType="VARCHAR(36)"/>
+
+        <!-- Role table -->
+        <modifyDataType tableName="role"
+                        schemaName="bank_schema"
+                        columnName="uid"
+                        newDataType="VARCHAR(36)"/>
+
+        <!-- Functionality table -->
+        <modifyDataType tableName="functionality"
+                        schemaName="bank_schema"
+                        columnName="uid"
+                        newDataType="VARCHAR(36)"/>
+    </changeSet>
+
+    <changeSet id="1000003-2" author="giulio.pastore">
+        <preConditions onFail="MARK_RAN">
+            <tableExists schemaName="bank_schema" tableName="user"/>
+            <tableExists schemaName="bank_schema" tableName="bank_account"/>
+            <tableExists schemaName="bank_schema" tableName="transfer"/>
+            <tableExists schemaName="bank_schema" tableName="role"/>
+            <tableExists schemaName="bank_schema" tableName="functionality"/>
+        </preConditions>
+        <comment>Trim existing data to remove trailing spaces from CHAR columns</comment>
+
+        <sql>
+            UPDATE bank_schema.user SET uid = TRIM(uid) WHERE uid != TRIM(uid);
+            UPDATE bank_schema.user SET auth_user_id = TRIM(auth_user_id) WHERE auth_user_id != TRIM(auth_user_id);
+            UPDATE bank_schema.bank_account SET uid = TRIM(uid) WHERE uid != TRIM(uid);
+            UPDATE bank_schema.transfer SET uid = TRIM(uid) WHERE uid != TRIM(uid);
+            UPDATE bank_schema.role SET uid = TRIM(uid) WHERE uid != TRIM(uid);
+            UPDATE bank_schema.functionality SET uid = TRIM(uid) WHERE uid != TRIM(uid);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
