@@ -11,6 +11,14 @@ spring:
     username: postgres.ehgsmaiqpbtpjiiqkpdx # O il nome utente specifico del pooler se diverso
     password: PestoProsciutto11! # La tua password del database
     driver-class-name: org.postgresql.Driver
+    hikari:
+      # Configurazione ottimizzata per Supabase Session Mode
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
     liquibase-schema: bank_schema
