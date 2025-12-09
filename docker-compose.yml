@@ -14,7 +14,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
 
       # JPA/Hibernate
-      SPRING_JPA_HIBERNATE_DDL_AUTO: ${DDL_AUTO:-validate}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${DDL_AUTO:-update}
       SPRING_JPA_SHOW_SQL: ${SHOW_SQL:-false}
 
       # Liquibase

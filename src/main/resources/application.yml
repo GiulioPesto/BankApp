@@ -6,10 +6,11 @@
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 spring:
   datasource:
-    # L'URL del pooler usa una porta diversa (solitamente 5432) e un host diverso
-    url: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:5432/postgres
-    username: postgres.ehgsmaiqpbtpjiiqkpdx # O il nome utente specifico del pooler se diverso
-    password: PestoProsciutto11! # La tua password del database
+    # Usa variabili d'ambiente per maggiore sicurezza
+    # Per sviluppo locale, crea un file .env o passa le variabili al run
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       # Configurazione ottimizzata per Supabase Session Mode
@@ -40,7 +41,4 @@ management:
       enabled: true
     readinessState:
       enabled: true
-  metrics:
-    export:
-      prometheus:
-        enabled: true
+
