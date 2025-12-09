@@ -21,9 +21,10 @@ spring:
         default_schema: bank_schema_prod
 
   liquibase:
-    enabled: ${LIQUIBASE_ENABLED:true}
+    enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
     contexts: prod
+    default-schema: bank_schema_prod
     parameters:
       schema.name: bank_schema_prod
 
