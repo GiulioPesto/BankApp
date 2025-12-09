@@ -78,13 +78,13 @@
     <!-- Create Transfer Table -->
     <changeSet id="3" author="giulio.pastore">
         <createTable tableName="transfer" schemaName="bank_schema">
-            <column name="uid" type="char(36)">
+            <column name="uid" type="varchar(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="from_bank_account_uid" type="char(36)">
+            <column name="from_bank_account_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
-            <column name="to_bank_account_uid" type="char(36)">
+            <column name="to_bank_account_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="amount" type="decimal(19,2)"/>
@@ -109,6 +109,12 @@
                                  constraintName="fk_transfer_to_bank_account"/>
     </changeSet>
 
+    <changeSet id="1759247832462-1" author="giulio_pastore">
+        <addColumn tableName="user" schemaName="bank_schema">
+            <column name="auth_user_id" type="uuid" />
+        </addColumn>
+    </changeSet>
+
     <changeSet id="user_view" author="giulio.pastore">
         <createView viewName="user_full" schemaName="bank_schema" replaceIfExists="true">
             SELECT
@@ -116,28 +122,8 @@
                 a.phone,
                 a.created_at
             FROM bank_schema.user u
-                     JOIN auth.users a ON a.id = u.auth_user_id::uuid
+                     JOIN auth.users a ON a.id = CAST(u.auth_user_id AS uuid)
         </createView>
     </changeSet>
 
-    <changeSet id="1759247832462-1" author="giulio_pastore">
-        <addColumn tableName="user" schemaName="bank_schema">
-            <column name="auth_user_id" type="uuid" />
-        </addColumn>
-    </changeSet>
-
-    <changeSet id="4" author="giulio.pastore">
-        <addForeignKeyConstraint baseTableName="user"
-                                 baseTableSchemaName="bank_schema"
-                                 baseColumnNames="auth_user_id"
-                                 referencedTableName="users"
-                                 referencedTableSchemaName="auth"
-                                 referencedColumnNames="id"
-                                 constraintName="fk_user_auth_user"/>
-    </changeSet>
-
-
-    <changeSet id="1759764704849-1" author="giulio_pastore">
-        <dropForeignKeyConstraint baseTableName="user" baseTableSchemaName="bank_schema"  constraintName="fk_user_auth_user"/>
-    </changeSet>
 </databaseChangeLog>

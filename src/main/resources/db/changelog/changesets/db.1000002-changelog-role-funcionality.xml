@@ -23,10 +23,10 @@
     </changeSet>
     <changeSet id="20250719220000" author="giulio.pastore">
         <createTable tableName="user_role" schemaName="bank_schema">
-            <column name="user_uid" type="char(36)">
+            <column name="user_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_uid" type="char(36)">
+            <column name="role_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -47,10 +47,10 @@
                                  constraintName="fk_userrole_role"/>
 
         <createTable tableName="role_functionality" schemaName="bank_schema">
-            <column name="role_uid" type="char(36)">
+            <column name="role_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
-            <column name="functionality_uid" type="char(36)">
+            <column name="functionality_uid" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
