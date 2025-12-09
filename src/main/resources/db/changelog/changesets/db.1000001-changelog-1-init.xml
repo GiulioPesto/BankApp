@@ -5,7 +5,22 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="0" author="giulio.pastore">
+    <!-- Create Schema for Local Environment -->
+    <changeSet id="0-local" author="giulio.pastore" context="local">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS bank_schema_local;
+        </sql>
+    </changeSet>
+
+    <!-- Create Schema for Production Environment -->
+    <changeSet id="0-prod" author="giulio.pastore" context="prod">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS bank_schema_prod;
+        </sql>
+    </changeSet>
+
+    <!-- Fallback for default schema (backward compatibility) -->
+    <changeSet id="0-default" author="giulio.pastore" context="!local and !prod">
         <sql>
             CREATE SCHEMA IF NOT EXISTS bank_schema;
         </sql>
@@ -13,7 +28,7 @@
 
     <!-- Create User Table -->
     <changeSet id="1" author="giulio.pastore">
-        <createTable tableName="user" schemaName="bank_schema">
+        <createTable tableName="user" schemaName="${schema.name}">
             <column name="uid" type="char(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -60,7 +75,7 @@
 
     <!-- Create Account Table -->
     <changeSet id="2" author="giulio.pastore">
-        <createTable tableName="bank_account" schemaName="bank_schema">
+        <createTable tableName="bank_account" schemaName="${schema.name}">
             <column name="uid" type="char(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -69,7 +84,7 @@
             <column name="user_uid" type="char(36)">
                 <constraints nullable="false" foreignKeyName="fk_bank_account_user"
                              referencedTableName="user"
-                             referencedTableSchemaName="bank_schema"
+                             referencedTableSchemaName="${schema.name}"
                              referencedColumnNames="uid"/>
             </column>
         </createTable>
@@ -77,7 +92,7 @@
 
     <!-- Create Transfer Table -->
     <changeSet id="3" author="giulio.pastore">
-        <createTable tableName="transfer" schemaName="bank_schema">
+        <createTable tableName="transfer" schemaName="${schema.name}">
             <column name="uid" type="varchar(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -94,34 +109,34 @@
         </createTable>
 
         <addForeignKeyConstraint baseTableName="transfer"
-                                 baseTableSchemaName="bank_schema"
+                                 baseTableSchemaName="${schema.name}"
                                  baseColumnNames="from_bank_account_uid"
                                  referencedTableName="bank_account"
-                                 referencedTableSchemaName="bank_schema"
+                                 referencedTableSchemaName="${schema.name}"
                                  referencedColumnNames="uid"
                                  constraintName="fk_transfer_from_bank_account"/>
         <addForeignKeyConstraint baseTableName="transfer"
-                                 baseTableSchemaName="bank_schema"
+                                 baseTableSchemaName="${schema.name}"
                                  baseColumnNames="to_bank_account_uid"
                                  referencedTableName="bank_account"
-                                 referencedTableSchemaName="bank_schema"
+                                 referencedTableSchemaName="${schema.name}"
                                  referencedColumnNames="uid"
                                  constraintName="fk_transfer_to_bank_account"/>
     </changeSet>
 
     <changeSet id="1759247832462-1" author="giulio_pastore">
-        <addColumn tableName="user" schemaName="bank_schema">
+        <addColumn tableName="user" schemaName="${schema.name}">
             <column name="auth_user_id" type="VARCHAR(36)" />
         </addColumn>
     </changeSet>
 
     <changeSet id="user_view" author="giulio.pastore">
-        <createView viewName="user_full" schemaName="bank_schema" replaceIfExists="true">
+        <createView viewName="user_full" schemaName="${schema.name}" replaceIfExists="true">
             SELECT
                 u.*,
                 a.phone,
                 a.created_at
-            FROM bank_schema.user u
+            FROM ${schema.name}.user u
                      JOIN auth.users a ON a.id = CAST(u.auth_user_id AS uuid)
         </createView>
     </changeSet>

@@ -1,12 +1,15 @@
 spring:
   datasource:
+    # Usa variabili d'ambiente per maggiore sicurezza
+    # Per sviluppo locale, crea un file .env o passa le variabili al run
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
+      # Configurazione ottimizzata per Supabase Session Mode
       maximum-pool-size: ${HIKARI_MAX_POOL_SIZE:5}
-      minimum-idle: ${HIKARI_MIN_IDLE:2}
+      minimum-idle: ${HIKARI_MIN_IDLE:1}
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
@@ -17,36 +20,33 @@ spring:
       ddl-auto: create-drop
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
-        format_sql: false
-        default_schema: bank_schema_prod
+        format_sql: true
+        default_schema: bank_schema_local
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
     change-log: classpath:db/changelog/db.changelog-master.xml
-    liquibase-schema: bank_schema_prod
-    contexts: prod
+    default-schema: public
+    contexts: local
     parameters:
-      schema.name: bank_schema_prod
+      schema.name: bank_schema_local
 
-# Logging configuration per produzione
+# Logging configuration per sviluppo locale
 logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
-    com.giuliopastore: ${LOG_LEVEL_APP:INFO}
-    org.springframework.web: WARN
-    org.hibernate: WARN
+    com.giuliopastore: ${LOG_LEVEL_APP:DEBUG}
+    org.springframework.web: DEBUG
+    org.hibernate: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file:
-    name: ${LOG_FILE_PATH:/var/log/bankapp/application.log}
-    max-size: 10MB
-    max-history: 30
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-# Actuator configuration per produzione
+# Actuator configuration per health checks e monitoring
 management:
   endpoints:
     web:
@@ -55,7 +55,7 @@ management:
       base-path: /actuator
   endpoint:
     health:
-      show-details: never  # Non mostrare dettagli in produzione per sicurezza
+      show-details: always  # Mostra dettagli in locale per debug
       probes:
         enabled: true
   health:
@@ -67,14 +67,4 @@ management:
     metrics:
       export:
         enabled: true
-
-# Application info
-info:
-  app:
-    name: BankApp
-    description: Bank Application Backend
-    version: @project.version@
-    encoding: @project.build.sourceEncoding@
-    java:
-      version: @java.version@
 
