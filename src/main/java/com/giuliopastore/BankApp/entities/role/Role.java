@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Getter
 @Entity
-@Table(schema = "bank_schema", name = "role")
+@Table( name = "role")
 @EntityListeners(GenerateUidEntityListener.class)
 public class Role {
 

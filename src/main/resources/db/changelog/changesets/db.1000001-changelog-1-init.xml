@@ -5,26 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <!-- Create Schema for Local Environment -->
-    <changeSet id="0-local" author="giulio.pastore" context="local">
-        <sql>
-            CREATE SCHEMA IF NOT EXISTS bank_schema_local;
-        </sql>
-    </changeSet>
+    <property name="schema.name" value="bank_schema_local" context="local"/>
+    <property name="schema.name" value="bank_schema_prod" context="prod"/>
+    <property name="schema.name" value="bank_schema" context="!local and !prod"/>
 
-    <!-- Create Schema for Production Environment -->
-    <changeSet id="0-prod" author="giulio.pastore" context="prod">
-        <sql>
-            CREATE SCHEMA IF NOT EXISTS bank_schema_prod;
-        </sql>
-    </changeSet>
-
-    <!-- Fallback for default schema (backward compatibility) -->
-    <changeSet id="0-default" author="giulio.pastore" context="!local and !prod">
-        <sql>
-            CREATE SCHEMA IF NOT EXISTS bank_schema;
-        </sql>
-    </changeSet>
 
     <!-- Create User Table -->
     <changeSet id="1" author="giulio.pastore">

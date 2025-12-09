@@ -13,38 +13,19 @@ spring:
       leak-detection-threshold: 60000
 
   jpa:
-    hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
         default_schema: bank_schema_prod
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
     change-log: classpath:db/changelog/db.changelog-master.xml
-    liquibase-schema: bank_schema_prod
     contexts: prod
     parameters:
       schema.name: bank_schema_prod
 
-# Logging configuration per produzione
-logging:
-  level:
-    root: ${LOG_LEVEL_ROOT:INFO}
-    com.giuliopastore: ${LOG_LEVEL_APP:INFO}
-    org.springframework.web: WARN
-    org.hibernate: WARN
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file:
-    name: ${LOG_FILE_PATH:/var/log/bankapp/application.log}
-    max-size: 10MB
-    max-history: 30
 
 # Actuator configuration per produzione
 management:
@@ -67,14 +48,4 @@ management:
     metrics:
       export:
         enabled: true
-
-# Application info
-info:
-  app:
-    name: BankApp
-    description: Bank Application Backend
-    version: @project.version@
-    encoding: @project.build.sourceEncoding@
-    java:
-      version: @java.version@
 

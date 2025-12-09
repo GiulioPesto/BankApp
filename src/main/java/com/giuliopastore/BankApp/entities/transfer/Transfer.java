@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @Entity
-@Table(schema = "bank_schema", name = "transfer")
+@Table( name = "transfer")
 @EntityListeners(GenerateUidEntityListener.class)
 @ToString
 public class Transfer {

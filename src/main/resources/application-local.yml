@@ -16,35 +16,18 @@ spring:
       leak-detection-threshold: 60000
 
   jpa:
-    hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
         default_schema: bank_schema_local
+    show-sql: true
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
     change-log: classpath:db/changelog/db.changelog-master.xml
-    default-schema: public
     contexts: local
     parameters:
       schema.name: bank_schema_local
-
-# Logging configuration per sviluppo locale
-logging:
-  level:
-    root: ${LOG_LEVEL_ROOT:INFO}
-    com.giuliopastore: ${LOG_LEVEL_APP:DEBUG}
-    org.springframework.web: DEBUG
-    org.hibernate: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 # Actuator configuration per health checks e monitoring
 management:

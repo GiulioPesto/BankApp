@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <property name="schema.name" value="bank_schema_local" context="local"/>
+    <property name="schema.name" value="bank_schema_prod" context="prod"/>
+    <property name="schema.name" value="bank_schema" context="!local and !prod"/>
+
+    <!-- Create Schema for Local Environment -->
+    <changeSet id="0-create-schema-local" author="giulio.pastore" context="local">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SCHEMA ${schema.name};
+        </sql>
+    </changeSet>
+
+    <!-- Create Schema for Production Environment -->
+    <changeSet id="0-create-schema-prod" author="giulio.pastore" context="prod">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SCHEMA ${schema.name};
+        </sql>
+    </changeSet>
+
+    <!-- Fallback for default schema (backward compatibility) -->
+    <changeSet id="0-create-schema-default" author="giulio.pastore" context="!local and !prod">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SCHEMA ${schema.name};
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+

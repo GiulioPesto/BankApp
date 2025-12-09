@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
-@Table(schema = "bank_schema", name = "user")
+@Table( name = "user")
 @EntityListeners(GenerateUidEntityListener.class)
 public class User {
 
