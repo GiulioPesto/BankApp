@@ -16,6 +16,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        ddl-auto: create-drop
         format_sql: true
         default_schema: bank_schema_prod
 
