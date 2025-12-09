@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Files ###
+.env
+.env.local
+.env.staging
+.env.production
+.env.*.local
+
+### Docker ###
+*.log
+
+### macOS ###
+.DS_Store
+
