@@ -1,0 +1,50 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - prod
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run tests
+      run: mvn -B test --file pom.xml
+
+    - name: Generate test report
+      if: always()
+      run: mvn surefire-report:report
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-${{ github.sha }}
+        path: |
+          target/surefire-reports/
+          target/site/
+        retention-days: 7
+
+    - name: Test status
+      if: success()
+      run: echo "✅ Test completati con successo"
+
+    - name: Test failed
+      if: failure()
+      run: |
+        echo "❌ Test falliti"
+        exit 1
+

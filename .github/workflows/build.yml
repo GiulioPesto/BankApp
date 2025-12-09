@@ -1,0 +1,48 @@
+name: Build Application
+
+on:
+  push:
+    branches:
+      - prod
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build with Maven (skip tests)
+      run: mvn -B clean compile -DskipTests --file pom.xml
+
+    - name: Package application (skip tests)
+      run: mvn -B package -DskipTests --file pom.xml
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts-${{ github.sha }}
+        path: |
+          target/*.jar
+          target/classes/
+        retention-days: 7
+
+    - name: Build status
+      if: success()
+      run: echo "✅ Build completata con successo"
+
+    - name: Build failed
+      if: failure()
+      run: |
+        echo "❌ Build fallita"
+        exit 1
+
