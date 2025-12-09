@@ -111,7 +111,7 @@
 
     <changeSet id="1759247832462-1" author="giulio_pastore">
         <addColumn tableName="user" schemaName="bank_schema">
-            <column name="auth_user_id" type="uuid" />
+            <column name="auth_user_id" type="VARCHAR(36)" />
         </addColumn>
     </changeSet>
 
