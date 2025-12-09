@@ -3,7 +3,7 @@ spring:
     # Configurazione Supabase per i test di integrazione
     url: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:5432/postgres
     username: postgres.ehgsmaiqpbtpjiiqkpdx
-    password: PestoProsciutto11!
+    password: PestoPazzo3011!
     driver-class-name: org.postgresql.Driver
     hikari:
       # Configurazione per test - ridotto al minimo per evitare MaxClientsInSessionMode
