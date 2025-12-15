@@ -50,7 +50,7 @@ class UserControllerUnitTest {
                 .birthPlace("Milano")
                 .city("Milano")
                 .province("MI")
-                .subscriptionType(SubscriptionType.PREMIUM)
+                .subscriptionType(SubscriptionType.GOLD)
                 .authUserId("auth-123")
                 .build();
     }
@@ -241,7 +241,7 @@ class UserControllerUnitTest {
     void testCreateUserWithSubscriptionType() throws Exception {
         // Given
         User userWithSubscription = testUser;
-        userWithSubscription.setSubscriptionType(SubscriptionType.STANDARD);
+        userWithSubscription.setSubscriptionType(SubscriptionType.SILVER);
 
         when(userService.createUser(any(User.class))).thenReturn(userWithSubscription);
 
@@ -250,7 +250,7 @@ class UserControllerUnitTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userWithSubscription)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.subscriptionType").value("STANDARD"));
+                .andExpect(jsonPath("$.subscriptionType").value("SILVER"));
 
         verify(userService, times(1)).createUser(any(User.class));
     }

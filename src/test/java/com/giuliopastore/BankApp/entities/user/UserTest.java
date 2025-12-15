@@ -28,7 +28,7 @@ class UserTest {
                 .password("password123")
                 .address("Via Roma 123")
                 .phoneNumber("3331234567")
-                .subscriptionType(SubscriptionType.PREMIUM)
+                .subscriptionType(SubscriptionType.GOLD)
                 .zipCode(20100)
                 .taxIdCode("RSSMRA90E15H501A")
                 .birthDate(birthDate)
@@ -48,7 +48,7 @@ class UserTest {
         assertEquals("password123", user.getPassword());
         assertEquals("Via Roma 123", user.getAddress());
         assertEquals("3331234567", user.getPhoneNumber());
-        assertEquals(SubscriptionType.PREMIUM, user.getSubscriptionType());
+        assertEquals(SubscriptionType.GOLD, user.getSubscriptionType());
         assertEquals(20100, user.getZipCode());
         assertEquals("RSSMRA90E15H501A", user.getTaxIdCode());
         assertEquals(birthDate, user.getBirthDate());
@@ -118,7 +118,7 @@ class UserTest {
         user.setPassword("pass456");
         user.setAddress("Via Verdi 45");
         user.setPhoneNumber("3339876543");
-        user.setSubscriptionType(SubscriptionType.STANDARD);
+        user.setSubscriptionType(SubscriptionType.SILVER);
         user.setZipCode(10100);
         user.setTaxIdCode("BNCLGI85M10L219X");
         user.setBirthDate(LocalDate.of(1985, 8, 10));
@@ -136,7 +136,7 @@ class UserTest {
         assertEquals("pass456", user.getPassword());
         assertEquals("Via Verdi 45", user.getAddress());
         assertEquals("3339876543", user.getPhoneNumber());
-        assertEquals(SubscriptionType.STANDARD, user.getSubscriptionType());
+        assertEquals(SubscriptionType.SILVER, user.getSubscriptionType());
         assertEquals(10100, user.getZipCode());
         assertEquals("BNCLGI85M10L219X", user.getTaxIdCode());
         assertEquals(LocalDate.of(1985, 8, 10), user.getBirthDate());

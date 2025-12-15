@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public enum SubscriptionType {
     FREE("FREE"),
-    STANDARD("STANDARD"),
-    PREMIUM("PREMIUM");
+    SILVER("SILVER"),
+    GOLD("GOLD");
 
     private final String value;
 }

@@ -120,14 +120,14 @@ class UserRepositoryTest {
     void testSaveUserWithSubscriptionType() {
         // Given
         User user = createTestUser("premium-uid");
-        user.setSubscriptionType(SubscriptionType.PREMIUM);
+        user.setSubscriptionType(SubscriptionType.GOLD);
 
         // When
         User saved = userRepository.save(user);
 
         // Then
         assertNotNull(saved);
-        assertEquals(SubscriptionType.PREMIUM, saved.getSubscriptionType());
+        assertEquals(SubscriptionType.GOLD, saved.getSubscriptionType());
     }
 
     @Test

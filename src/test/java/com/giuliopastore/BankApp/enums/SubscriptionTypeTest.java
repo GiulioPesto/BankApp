@@ -14,8 +14,8 @@ class SubscriptionTypeTest {
         // Then
         assertEquals(3, types.length);
         assertEquals(SubscriptionType.FREE, types[0]);
-        assertEquals(SubscriptionType.STANDARD, types[1]);
-        assertEquals(SubscriptionType.PREMIUM, types[2]);
+        assertEquals(SubscriptionType.SILVER, types[1]);
+        assertEquals(SubscriptionType.GOLD, types[2]);
     }
 
     @Test
@@ -31,29 +31,29 @@ class SubscriptionTypeTest {
     @Test
     void testSubscriptionTypeStandard() {
         // Given
-        SubscriptionType type = SubscriptionType.STANDARD;
+        SubscriptionType type = SubscriptionType.SILVER;
 
         // Then
-        assertEquals("STANDARD", type.getValue());
-        assertEquals("STANDARD", type.name());
+        assertEquals("SILVER", type.getValue());
+        assertEquals("SILVER", type.name());
     }
 
     @Test
     void testSubscriptionTypePremium() {
         // Given
-        SubscriptionType type = SubscriptionType.PREMIUM;
+        SubscriptionType type = SubscriptionType.GOLD;
 
         // Then
-        assertEquals("PREMIUM", type.getValue());
-        assertEquals("PREMIUM", type.name());
+        assertEquals("GOLD", type.getValue());
+        assertEquals("GOLD", type.name());
     }
 
     @Test
     void testSubscriptionTypeValueOf() {
         // When & Then
         assertEquals(SubscriptionType.FREE, SubscriptionType.valueOf("FREE"));
-        assertEquals(SubscriptionType.STANDARD, SubscriptionType.valueOf("STANDARD"));
-        assertEquals(SubscriptionType.PREMIUM, SubscriptionType.valueOf("PREMIUM"));
+        assertEquals(SubscriptionType.SILVER, SubscriptionType.valueOf("SILVER"));
+        assertEquals(SubscriptionType.GOLD, SubscriptionType.valueOf("GOLD"));
     }
 
     @Test
@@ -67,7 +67,7 @@ class SubscriptionTypeTest {
         // Given
         SubscriptionType type1 = SubscriptionType.FREE;
         SubscriptionType type2 = SubscriptionType.FREE;
-        SubscriptionType type3 = SubscriptionType.PREMIUM;
+        SubscriptionType type3 = SubscriptionType.GOLD;
 
         // Then
         assertEquals(type1, type2);
@@ -78,8 +78,8 @@ class SubscriptionTypeTest {
     void testSubscriptionTypeGetValue() {
         // When & Then
         assertEquals("FREE", SubscriptionType.FREE.getValue());
-        assertEquals("STANDARD", SubscriptionType.STANDARD.getValue());
-        assertEquals("PREMIUM", SubscriptionType.PREMIUM.getValue());
+        assertEquals("SILVER", SubscriptionType.SILVER.getValue());
+        assertEquals("GOLD", SubscriptionType.GOLD.getValue());
     }
 
     @Test

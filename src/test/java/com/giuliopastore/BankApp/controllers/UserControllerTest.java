@@ -92,7 +92,7 @@ public class UserControllerTest {
                 .zipCode(20100)
                 .taxIdCode("RSSMRA90E15H501A")
                 .birthDate(LocalDate.of(1990, 5, 15))
-                .subscriptionType(SubscriptionType.PREMIUM)
+                .subscriptionType(SubscriptionType.GOLD)
                 .birthPlace("Milano")
                 .city("Milano")
                 .province("MI")
@@ -106,7 +106,7 @@ public class UserControllerTest {
         assertEquals("Mario", created.getName());
         assertEquals("Giovanni", created.getSecondName());
         assertEquals("Rossi", created.getLastName());
-        assertEquals(SubscriptionType.PREMIUM, created.getSubscriptionType());
+        assertEquals(SubscriptionType.GOLD, created.getSubscriptionType());
         log.info("User with all fields created successfully: {}", created);
 
         // Cleanup

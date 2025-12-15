@@ -6,8 +6,9 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <property name="schema.name" value="bank_schema_local" context="local"/>
+    <property name="schema.name" value="bank_schema_dev" context="dev"/>
     <property name="schema.name" value="bank_schema_prod" context="prod"/>
-    <property name="schema.name" value="bank_schema" context="!local and !prod"/>
+    <property name="schema.name" value="bank_schema" context="!local and !dev and !prod"/>
 
 
     <!-- Create User Table -->

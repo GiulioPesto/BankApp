@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    # Usa variabili d'ambiente per maggiore sicurezza
+    # Per sviluppo locale, crea un file .env o passa le variabili al run
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      # Configurazione ottimizzata per Supabase Session Mode
+      maximum-pool-size: ${HIKARI_MAX_POOL_SIZE:5}
+      minimum-idle: ${HIKARI_MIN_IDLE:1}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: bank_schema_dev
+    show-sql: true
+
+  liquibase:
+    enabled: ${LIQUIBASE_ENABLED:true}
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    contexts: dev
+    parameters:
+      schema.name: bank_schema_dev
+
+# Actuator configuration per health checks e monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always  # Mostra dettagli in locale per debug
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+

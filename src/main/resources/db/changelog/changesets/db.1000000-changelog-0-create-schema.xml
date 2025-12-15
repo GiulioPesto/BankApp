@@ -6,11 +6,24 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <property name="schema.name" value="bank_schema_local" context="local"/>
+    <property name="schema.name" value="bank_schema_dev" context="dev"/>
     <property name="schema.name" value="bank_schema_prod" context="prod"/>
-    <property name="schema.name" value="bank_schema" context="!local and !prod"/>
+    <property name="schema.name" value="bank_schema" context="!local and !dev and !prod"/>
 
     <!-- Create Schema for Local Environment -->
     <changeSet id="0-create-schema-local" author="giulio.pastore" context="local">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SCHEMA ${schema.name};
+        </sql>
+    </changeSet>
+
+    <!-- Create Schema for Development Environment -->
+    <changeSet id="0-create-schema-dev" author="giulio.pastore" context="dev">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
@@ -34,7 +47,7 @@
     </changeSet>
 
     <!-- Fallback for default schema (backward compatibility) -->
-    <changeSet id="0-create-schema-default" author="giulio.pastore" context="!local and !prod">
+    <changeSet id="0-create-schema-default" author="giulio.pastore" context="!local and !dev and !prod">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '${schema.name}'
