@@ -27,7 +27,6 @@ jobs:
     - name: Determine environment from branch or input
       id: env
       run: |
-        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           # Manual trigger - use input
           if [[ "${{ github.event.inputs.environment }}" == "production" ]]; then
             echo "environment=production" >> $GITHUB_OUTPUT
@@ -44,24 +43,6 @@ jobs:
             echo "url=https://dev.bankapp.com" >> $GITHUB_OUTPUT
             echo "branch=develop" >> $GITHUB_OUTPUT
           fi
-        else
-          # Automatic trigger - use branch
-          if [[ "${{ github.ref }}" == "refs/heads/prod" ]]; then
-            echo "environment=production" >> $GITHUB_OUTPUT
-            echo "profile=prod" >> $GITHUB_OUTPUT
-            echo "docker-tag=latest" >> $GITHUB_OUTPUT
-            echo "deploy-hook-secret=RENDER_DEPLOY_HOOK" >> $GITHUB_OUTPUT
-            echo "url=https://bankapp.com" >> $GITHUB_OUTPUT
-            echo "branch=prod" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
-            echo "environment=development" >> $GITHUB_OUTPUT
-            echo "profile=dev" >> $GITHUB_OUTPUT
-            echo "docker-tag=dev-latest" >> $GITHUB_OUTPUT
-            echo "deploy-hook-secret=RENDER_DEPLOY_HOOK_DEV" >> $GITHUB_OUTPUT
-            echo "url=https://dev.bankapp.com" >> $GITHUB_OUTPUT
-            echo "branch=develop" >> $GITHUB_OUTPUT
-          fi
-        fi
 
   check-build-test:
     name: Check Build and Test Status
