@@ -4,6 +4,9 @@ import com.giuliopastore.BankApp.entities.user.User;
 import com.giuliopastore.BankApp.repos.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
 @Service
 public class UserService {
 
@@ -44,6 +47,31 @@ public class UserService {
          throw new NullPointerException(ex.getMessage());
         }
         return null;
+    }
+
+    public User updateUser(String uid, Map<String, Object> updates) {
+        User existingUser = userRepository.findUserByUid(uid);
+
+        if (existingUser == null) {
+            return null;
+        }
+
+        updates.forEach((fieldName, value) -> {
+            try {
+                Field field = User.class.getDeclaredField(fieldName);
+                field.setAccessible(true);
+
+                if (field.getName().equals("subscriptionType")) {
+                    value = Enum.valueOf(com.giuliopastore.BankApp.enums.SubscriptionType.class, (String) value);
+                }
+
+                field.set(existingUser, value);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                System.err.println("Errore durante l'aggiornamento del campo " + fieldName + ": " + e.getMessage());
+            }
+        });
+
+        return userRepository.save(existingUser);
     }
 
     public void deleteUser(String uid) {

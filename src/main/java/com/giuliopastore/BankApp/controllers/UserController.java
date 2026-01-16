@@ -5,6 +5,8 @@ import com.giuliopastore.BankApp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,6 +27,11 @@ public class UserController {
     @PatchMapping("/{uid}")
     public User updateUser(@PathVariable String uid, @RequestBody User user) {
         return userService.updateUser(uid, user);
+    }
+
+    @PatchMapping("/partial/{uid}")
+    public User partialUpdateUser(@PathVariable String uid, @RequestBody Map<String, Object> updates) {
+        return userService.updateUser(uid, updates);
     }
 
     @DeleteMapping("/{uid}")

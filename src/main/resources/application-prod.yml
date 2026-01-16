@@ -49,3 +49,8 @@ management:
       export:
         enabled: true
 
+# Stripe configuration
+stripe:
+  api:
+    key: ${STRIPE_API_KEY:}
+
