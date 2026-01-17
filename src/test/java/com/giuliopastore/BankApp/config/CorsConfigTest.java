@@ -25,7 +25,7 @@ class CorsConfigTest {
         // Given
         CorsConfig corsConfig = new CorsConfig();
         when(corsRegistry.addMapping(anyString())).thenReturn(corsRegistration);
-        when(corsRegistration.allowedOrigins(anyString(), anyString(), anyString())).thenReturn(corsRegistration);
+        when(corsRegistration.allowedOrigins(anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(corsRegistration);
         when(corsRegistration.allowedMethods(anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(corsRegistration);
         when(corsRegistration.allowedHeaders(anyString())).thenReturn(corsRegistration);
         when(corsRegistration.allowCredentials(anyBoolean())).thenReturn(corsRegistration);
@@ -35,7 +35,7 @@ class CorsConfigTest {
 
         // Then
         verify(corsRegistry, times(1)).addMapping("/**");
-        verify(corsRegistration, times(1)).allowedOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost:5173");
+        verify(corsRegistration, times(1)).allowedOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost:5173", "https://pestobank.wasd.solutions", "https://www.pestobank.wasd.solutions");
         verify(corsRegistration, times(1)).allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
         verify(corsRegistration, times(1)).allowedHeaders("*");
         verify(corsRegistration, times(1)).allowCredentials(true);
